@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_end_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kotadashirui <kotadashirui@student.42.f    +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 18:27:10 by kotadashiru       #+#    #+#             */
-/*   Updated: 2025/11/29 11:58:54 by kotadashiru      ###   ########.fr       */
+/*   Updated: 2025/11/29 20:31:18 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	update_single_quote(char *line, size_t *index, int *s_quote,
 static void	update_double_quote(char *line, size_t *index, int s_quote,
 		int *d_quote)
 {
-	if(*index > 0 &&line[*index - 1] == '\\' && line[*index] == '"')
+	if (*index > 0 &&line[*index - 1] == '\\' && line[*index] == '"')
 		return ;
 	if (line[*index] == '"' && s_quote != 1)
 	{

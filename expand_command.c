@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kotadashirui <kotadashirui@student.42.f    +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:22:04 by kotadashiru       #+#    #+#             */
-/*   Updated: 2025/11/29 14:54:05 by kotadashiru      ###   ########.fr       */
+/*   Updated: 2025/11/29 20:17:23 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,18 @@
 
 static int	expand_arg_list(t_ast *node, t_pipex *ps)
 {
-	t_arg	**pp;
-	t_arg	*cur;
-	int		removed;
+    t_arg	*arg;
+	char	*new_val;
 
-	if (!node)
-		return (FAILURE);
-	pp = &node->arg_list;
-	cur = node->arg_list;
-	while (cur)
+	arg = node->arg_list;
+	while (arg)
 	{
-		if (!process_one_arg(pp, &cur, ps, &removed))
+		new_val = expand_one(arg->value, ps);
+		if (!new_val)
 			return (FAILURE);
-		if (!removed)
-		{
-			pp = &cur->next;
-			cur = cur->next;
-		}
+		free(arg->value);
+		arg->value = new_val;
+		arg = arg->next;
 	}
 	return (SUCCESS);
 }
@@ -90,7 +85,7 @@ int	expand_command(t_ast *node, t_pipex *ps)
 {
 	if (expand_arg_list(node, ps) == FAILURE)
 		return (FAILURE);
-	fprintf(stderr, "[DEBUG] arg_list after expand:\n");
+	// fprintf(stderr, "[DEBUG] arg_list after expand:\n");
 	free_node_argv(node);
 	node->argv = list_to_argv(node->arg_list);
 	if (!node->argv)

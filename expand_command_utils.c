@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_command_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kotadashirui <kotadashirui@student.42.f    +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 14:05:10 by kotadashiru       #+#    #+#             */
-/*   Updated: 2025/11/29 14:53:09 by kotadashiru      ###   ########.fr       */
+/*   Updated: 2025/11/29 20:06:07 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	should_remove_arg(const char *orig, const char *new_val)
 	int	has_dollar;
 
 	init_flags(orig, &has_quote, &has_dollar);
-    fprintf(stderr,"[DEBUG] should_remove_arg? orig='%s' has_q=%d has_$=%d new[0]=%d\n",orig, has_quote, has_dollar, (unsigned char)new_val[0]);
+    // fprintf(stderr,"[DEBUG] should_remove_arg? orig='%s' has_q=%d has_$=%d new[0]=%d\n",orig, has_quote, has_dollar, (unsigned char)new_val[0]);
 	if (!has_quote && has_dollar && new_val[0] == '\0')
 		return (1);
 	return (0);
@@ -60,17 +60,17 @@ int	process_one_arg(t_arg **pp, t_arg **cur, t_pipex *ps, int *removed)
 
 	orig = (*cur)->value;
 	new_val = expand_one(orig, ps);
-    fprintf(stderr, "[DEBUG] orig='%s', new_val='%s'\n",orig, new_val ? new_val : "(null)");
+    // fprintf(stderr, "[DEBUG] orig='%s', new_val='%s'\n",orig, new_val ? new_val : "(null)");
 	if (!new_val)
 		return (FAILURE);
 	if (should_remove_arg(orig, new_val))
 	{
-        fprintf(stderr, "[DEBUG] remove arg (orig='%s')\n", orig);
+        // fprintf(stderr, "[DEBUG] remove arg (orig='%s')\n", orig);
 		remove_current_arg(pp, cur, orig, new_val);
 		*removed = 1;
 		return (SUCCESS);
 	}
-    fprintf(stderr, "[DEBUG] keep arg (orig='%s', new='%s')\n",orig, new_val);
+    // fprintf(stderr, "[DEBUG] keep arg (orig='%s', new='%s')\n",orig, new_val);
 	replace_arg_value(*cur, orig, new_val);
 	*removed = 0;
 	return (SUCCESS);
